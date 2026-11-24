@@ -30,7 +30,7 @@ export default async function Projects() {
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       <span className="chip capitalize">{h.status}</span>
-                      {h.type === "product" && <span className="chip">${h.mrr || 0} MRR · {h.customers || 0} customers</span>}
+                      {h.type === "product" && <span className="chip"><span className="money">${h.mrr || 0} MRR</span> · {h.customers || 0} customers</span>}
                       <span className="chip">{h.open} open</span>
                     </div>
                     <p className="text-[13.5px] text-[#d6cebc] mt-3 leading-relaxed">{h.summary}</p>

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { today as todayStr, profile } from "@/lib/vault";
 import { Reveal, Count, Bar, GoalRing, Clock, Greeting } from "@/components/ui";
 import Inline from "@/components/Inline";
+import PrivacyToggle from "@/components/PrivacyToggle";
 
 export default async function Overview() {
   await connection();
@@ -42,8 +43,8 @@ export default async function Overview() {
       {/* Goal + sources */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-5">
         <Reveal delay={0.05} className="xl:col-span-5 panel p-6 relative overflow-hidden">
-          <div className="eyebrow">{pf.goal.label || "The goal"}</div>
-          <div className="relative flex items-center justify-center mt-2">
+          <div className="flex items-center justify-between"><div className="eyebrow">{pf.goal.label || "The goal"}</div><PrivacyToggle label /></div>
+          <div className="money relative flex items-center justify-center mt-2">
             <GoalRing value={g.mrr} target={g.target} segments={g.sources.map(s => ({ color: s.color, share: s.target / g.target }))} />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
               <div className="eyebrow !text-[10px]">{pf.goal.label || "Progress"}</div>
@@ -52,7 +53,7 @@ export default async function Overview() {
               <div className="chip mt-3">{((g.mrr / g.target) * 100).toFixed(1)}% there</div>
             </div>
           </div>
-          <div className="flex justify-center gap-4 mt-3 text-[12px] text-muted">
+          <div className="money flex justify-center gap-4 mt-3 text-[12px] text-muted">
             {g.sources.map(s => <span key={s.name} className="flex items-center gap-1.5"><i className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: s.color }} />{s.name} {pf.goal.unit}{(s.target / 1000).toFixed(0)}k</span>)}
           </div>
         </Reveal>
@@ -70,7 +71,7 @@ export default async function Overview() {
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-[28px] font-semibold tabular-nums leading-none"><Count to={s.have} /><span className="text-muted text-[16px]"> / {s.need}</span></div>
-                    <div className="text-[12px] text-muted mt-1">{s.unit} · {pf.goal.unit}{s.mrr} {pf.goal.short}</div>
+                    <div className="text-[12px] text-muted mt-1">{s.unit} · <span className="money">{pf.goal.unit}{s.mrr} {pf.goal.short}</span></div>
                   </div>
                 </div>
                 <div className="relative mt-4"><Bar pct={(s.have / s.need) * 100} color={s.color} delay={0.3 + i * 0.1} /></div>

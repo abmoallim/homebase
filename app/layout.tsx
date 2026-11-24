@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Homebase", description: "Your Obsidi
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${serif.variable} ${mono.variable} antialiased`}>
+    <html lang="en" data-private="1" suppressHydrationWarning className={`${inter.variable} ${serif.variable} ${mono.variable} antialiased`}>
       <body className="bg-grid min-h-screen">
         <LiveRefresh />
         <div className="flex min-h-screen">

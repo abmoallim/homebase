@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import PrivacyToggle from "./PrivacyToggle";
 
 const NAV = [
   { href: "/", label: "Overview", icon: "◎" },
@@ -40,6 +41,7 @@ export default function Sidebar({ vault }: { vault: string }) {
         })}
       </nav>
       <div className="mt-auto px-6 hidden lg:block text-[11px] text-faint leading-relaxed">
+        <div className="mb-3"><PrivacyToggle label /></div>
         <Link href="/add" className="block mb-3 rounded-xl border border-line px-3 py-2 text-center text-[13px] text-brass hover:bg-[rgba(201,164,92,0.08)]">+ Add</Link>
         <a href={`obsidian://open?path=${encodeURIComponent(vault)}`} className="text-muted hover:text-brass">Open vault in Obsidian ↗</a><br />Edit in Obsidian or tell Claude, and this updates itself.
       </div>
