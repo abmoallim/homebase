@@ -7,6 +7,7 @@ const NAV = [
   { href: "/", label: "Overview", icon: "◎" },
   { href: "/projects", label: "Projects", icon: "▦" },
   { href: "/tasks", label: "Tasks", icon: "✓" },
+  { href: "/thoughts", label: "Thoughts", icon: "✎" },
   { href: "/content", label: "Content", icon: "▶" },
   { href: "/focus", label: "Focus", icon: "◔" },
   { href: "/office", label: "Agent Office", icon: "⌘" },

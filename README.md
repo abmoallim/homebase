@@ -25,12 +25,15 @@ First launch creates your vault at `~/Homebase` from `starter-vault/` and walks 
 
 Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or edit `homebase.config.json`). Homebase only needs the frontmatter conventions below; everything else in your vault is left alone.
 
+📖 **New here? Read the [guide](docs/GUIDE.md): where each page gets its data, where your files live, and how to change things.**
+
 ## How it reads your vault
 | Page | Reads from |
 |---|---|
 | Overview | `00 Home/Profile.md` (name, goal, focus areas, countdowns), `00 Home/Now.md`, tasks, content, today's daily note |
 | Projects | notes with a `priority` number and `type: product / project-note / work / study / personal` |
 | Tasks | every `- [ ]` (add `📅 2026-12-31` for a due date) |
+| Thoughts | `02 Inbox/`, `40 Ideas/`, and the "Thoughts & rants" bullets of daily notes |
 | Content | notes with `type: content` and a `stage` |
 | Agent Office | the `agents:` list in `00 Home/Agents.md` |
 | Goal Map | `00 Home/Goal Map.canvas` |

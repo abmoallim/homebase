@@ -141,3 +141,25 @@ export function activity(days = 30): ActDay[] {
       byProject: (n.fm.by_project || []) as any, sessions: (n.fm.sessions || []) as any, href: noteHref(n),
     }));
 }
+
+export type Thought = { kind: "inbox" | "idea" | "journal"; title: string; text: string; href: string; date: string };
+/** Everything you've thought out loud: unsorted notes in 02 Inbox, developed ideas, and the "Thoughts & rants" bullets of daily notes. */
+export function thoughts(): Thought[] {
+  const notes = loadVault().notes.filter(n => n.ext === ".md");
+  const out: Thought[] = [];
+  for (const n of notes) {
+    const date = String(n.fm.date || new Date(n.mtime).toISOString().slice(0, 10));
+    if (n.folder === "02 Inbox" || n.fm.type === "thought")
+      out.push({ kind: "inbox", title: n.name, text: plain(n.fm.summary || ""), href: noteHref(n), date });
+    else if (n.folder === "40 Ideas" || n.fm.type === "idea")
+      out.push({ kind: "idea", title: n.name, text: plain(n.fm.summary || ""), href: noteHref(n), date });
+    else if (n.fm.type === "daily") {
+      const m = n.body.match(/## 💭[^\n]*\n([\s\S]*?)(?=\n## |$)/);
+      for (const line of (m?.[1] || "").split("\n")) {
+        const t = line.replace(/^\s*[-*]\s*/, "").trim();
+        if (t && !t.startsWith("<!--")) out.push({ kind: "journal", title: t.length > 70 ? t.slice(0, 67) + "…" : t, text: t.length > 70 ? plain(t) : "", href: noteHref(n), date: String(n.fm.date || "") });
+      }
+    }
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date));
+}

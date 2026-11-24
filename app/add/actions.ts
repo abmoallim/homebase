@@ -32,5 +32,5 @@ export async function addItem(fd: FormData) {
     appendLine(dailyNote(), `- ${text}`, "## 📝 Log");
     done = "Added to today's log";
   }
-  redirect("/add?done=" + encodeURIComponent(done));
+  redirect((s("from") === "thoughts" || kind === "thought" ? "/thoughts" : "/add") + "?done=" + encodeURIComponent(done));
 }
