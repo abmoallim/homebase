@@ -4,11 +4,20 @@ Your Obsidian vault as a living, **local** dashboard. No hosting, no login, no c
 
 It works fine **without any AI**: a first-run screen fills your vault in a minute. With an AI assistant, the vault ships with conventions (`CLAUDE.md`) and a morning briefing hook, so the assistant already knows how everything is laid out.
 
+<p align="center">
+  <img src="docs/screenshots/overview.jpg" alt="Homebase overview: greeting, countdowns, goal ring and focus areas" width="860">
+</p>
+<p align="center">
+  <img src="docs/screenshots/tasks.jpg" alt="Tasks page grouped by project" width="425">
+  <img src="docs/screenshots/agent-office.jpg" alt="Agent Office: a top-down floor plan of your AI agents" width="425">
+</p>
+<p align="center"><sub>Screenshots use made-up demo data.</sub></p>
+
 ## Quick start
 Requirements: [Node.js](https://nodejs.org) 20+ and [Obsidian](https://obsidian.md).
 
 ```bash
-git clone <this repo> homebase && cd homebase
+git clone https://github.com/abmoallim/homebase.git && cd homebase
 ./install.sh            # installs dependencies, adds a "Homebase" launcher to your app menu (Linux)
 ./start.sh              # starts the app and opens http://localhost:3333
 ```
