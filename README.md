@@ -23,7 +23,9 @@ git clone https://github.com/abmoallim/homebase.git && cd homebase
 ```
 First launch creates your vault at `~/Homebase` from `starter-vault/` and walks you through setup. Then open that folder in Obsidian (**Open vault in Obsidian** in the sidebar does it). On macOS or Windows use `npm install && npm run dev` and open http://localhost:3333.
 
-Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or edit `homebase.config.json`). Homebase only needs the frontmatter conventions below; everything else in your vault is left alone.
+**You don't need any config file.** With no `homebase.config.json`, Homebase uses `~/Homebase` and creates it for you. If the folder you point it at doesn't exist yet, it creates a starter vault there instead of crashing.
+
+Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or copy `homebase.config.example.json` to `homebase.config.json` and edit the path). Homebase only needs the frontmatter conventions below; everything else in your vault is left alone.
 
 📖 **New here? Read the [guide](docs/GUIDE.md): where each page gets its data, where your files live, and how to change things.**
 
