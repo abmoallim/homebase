@@ -104,7 +104,7 @@ export function latestMtime(): number {
   return Math.round(max) + files.length;
 }
 
-/** Resolve a wikilink target ("Flane", "Goal Map.canvas", "Folder/Note") to a note. */
+/** Resolve a wikilink target ("My Project", "Goal Map.canvas", "Folder/Note") to a note. */
 export function resolve(target: string): Note | undefined {
   const { byName, notes } = loadVault();
   const t = target.split("#")[0].trim();
