@@ -16,7 +16,7 @@ The app finds your vault in this order: the `VAULT_PATH` environment variable, t
 | **Overview** | Greeting, countdowns, goal ring, focus areas, this week, due soon, waiting on | `00 Home/Profile.md` + `00 Home/Now.md` + tasks | Edit those two notes |
 | **Projects** | Your projects ranked by priority | Notes with a `priority` number and `type: product / project-note / work / study / personal` | **+ Add → Project** |
 | **Tasks** | Every open task, grouped by project, with filters | Every `- [ ]` line in the vault (`📅 2026-12-31` = due date) | **+ Add → Task** |
-| **Thoughts** | Everything you've thought out loud, with search and filters | `02 Inbox/` (unsorted), `40 Ideas/`, and the "💭 Thoughts & rants" bullets in your daily notes | Type into the box at the top of the page |
+| **Thoughts** | A timeline of everything that came to mind, big or small, with search, filters and project tags | `00 Home/Thoughts Log.md` (the running log), plus `02 Inbox/`, `40 Ideas/` and the "💭 Thoughts & rants" bullets in daily notes | Type into the box at the top of the page: it appends one line to the log |
 | **Content** | A board of your content pipeline (idea → posted) | Notes with `type: content` and a `stage` | Copy `90 Templates/Content Piece.md` |
 | **Focus** | Where your time went (needs the optional activity logger) | `00 Home/Activity/*.md` | Optional, see below |
 | **Agent Office** | A top-down floor plan of your AI agents and what each is doing | The `agents:` list in `00 Home/Agents.md` | Edit that list |
@@ -27,15 +27,15 @@ The app finds your vault in this order: the `VAULT_PATH` environment variable, t
 **+ Add** (bottom of the sidebar) writes straight into your vault: task, log entry, thought, idea, person or project. **Open vault in Obsidian** opens the same folder in Obsidian.
 
 ## 3. The thoughts flow
-Capture first, sort later:
-1. Type a thought into the box on **Thoughts**. It lands in `02 Inbox/` as its own note (`status: inbox`).
-2. Develop the ones that matter: move the note to `40 Ideas/` (or turn it into a project).
-3. Quick rants and reflections can also go straight into the daily note under **💭 Thoughts & rants**. They show up on the Thoughts page under *From journal*.
+Thoughts come in every size, so there are three ways to keep them, and the Thoughts page shows all of them together:
+1. **The log (default).** Type into the box on **Thoughts**, or tell your assistant. Each thought becomes one line in `00 Home/Thoughts Log.md`: `- 2026-11-24 14:05 · **Project** · the thought`. Small thoughts and big ones both start here, and you can back-fill old ones by hand (where did each project begin?).
+2. **A note of its own.** When a thought grows, make a note for it in `02 Inbox/` (or `40 Ideas/` once it's developed) and link it from the log line with `[[Note name]]`.
+3. **The journal.** Quick rants and reflections in a daily note under **💭 Thoughts & rants** also appear on the page (tagged *Journal*).
 
 ## 4. Your vault folders
 | Folder | What goes there |
 |---|---|
-| `00 Home/` | `Start here`, `Now` (your living briefing), `Profile` (app settings), `Agents`, `Goal Map.canvas`, `*.base` tables |
+| `00 Home/` | `Start here`, `Now` (your living briefing), `Profile` (app settings), `Thoughts Log`, `Agents`, `Goal Map.canvas`, `*.base` tables |
 | `01 Daily/` | One note per day |
 | `02 Inbox/` | Unsorted thoughts |
 | `03 Meetings/` | `YYYY-MM-DD Title.md` |

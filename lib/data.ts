@@ -142,14 +142,20 @@ export function activity(days = 30): ActDay[] {
     }));
 }
 
-export type Thought = { kind: "inbox" | "idea" | "journal"; title: string; text: string; href: string; date: string };
-/** Everything you've thought out loud: unsorted notes in 02 Inbox, developed ideas, and the "Thoughts & rants" bullets of daily notes. */
+export type Thought = { kind: "log" | "inbox" | "idea" | "journal"; title: string; text: string; href: string; date: string; time?: string; project?: string };
+const LOG_LINE = /^\s*[-*]\s+(\d{4}-\d{2}-\d{2})(?:\s+(\d{1,2}:\d{2}))?\s+[·|-]\s+(?:\*\*(.+?)\*\*\s+[·|-]\s+)?(.+)$/;
+/** Everything you've thought: the running log (`00 Home/Thoughts Log.md`), unsorted notes in 02 Inbox, developed ideas, and the "Thoughts & rants" bullets of daily notes. */
 export function thoughts(): Thought[] {
   const notes = loadVault().notes.filter(n => n.ext === ".md");
   const out: Thought[] = [];
   for (const n of notes) {
     const date = String(n.fm.date || new Date(n.mtime).toISOString().slice(0, 10));
-    if (n.folder === "02 Inbox" || n.fm.type === "thought")
+    if (n.name === "Thoughts Log") {
+      for (const line of n.body.split("\n")) {
+        const m = line.match(LOG_LINE);
+        if (m) out.push({ kind: "log", title: plain(m[4]), text: "", href: noteHref(n), date: m[1], time: m[2], project: m[3] });
+      }
+    } else if (n.folder === "02 Inbox" || n.fm.type === "thought")
       out.push({ kind: "inbox", title: n.name, text: plain(n.fm.summary || ""), href: noteHref(n), date });
     else if (n.folder === "40 Ideas" || n.fm.type === "idea")
       out.push({ kind: "idea", title: n.name, text: plain(n.fm.summary || ""), href: noteHref(n), date });
@@ -157,9 +163,9 @@ export function thoughts(): Thought[] {
       const m = n.body.match(/## 💭[^\n]*\n([\s\S]*?)(?=\n## |$)/);
       for (const line of (m?.[1] || "").split("\n")) {
         const t = line.replace(/^\s*[-*]\s*/, "").trim();
-        if (t && !t.startsWith("<!--")) out.push({ kind: "journal", title: t.length > 70 ? t.slice(0, 67) + "…" : t, text: t.length > 70 ? plain(t) : "", href: noteHref(n), date: String(n.fm.date || "") });
+        if (t && !t.startsWith("<!--")) out.push({ kind: "journal", title: plain(t), text: "", href: noteHref(n), date: String(n.fm.date || "") });
       }
     }
   }
-  return out.sort((a, b) => b.date.localeCompare(a.date));
+  return out.sort((a, b) => (b.date + (b.time || "").padStart(5, "0")).localeCompare(a.date + (a.time || "").padStart(5, "0")));
 }

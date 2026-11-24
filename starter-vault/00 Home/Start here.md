@@ -13,7 +13,7 @@ summary: "How Homebase works, in two minutes"
 |---|---|
 | Overview | `00 Home/Profile.md` (goal, focus areas), `00 Home/Now.md`, tasks, content, today's daily note |
 | Projects | notes with a `priority` number (`type: product`, `project-note`, `work`, `study` or `personal`) |
-| Thoughts | `02 Inbox/`, `40 Ideas/`, and the **💭 Thoughts & rants** bullets of daily notes |
+| Thoughts | `00 Home/Thoughts Log.md` (one line per thought), `02 Inbox/`, `40 Ideas/`, and the **💭 Thoughts & rants** bullets of daily notes |
 | Tasks | every `- [ ]` in the vault; add `📅 2026-12-31` for a due date |
 | Content | notes with `type: content` and a `stage` |
 | Agent Office | the `agents:` list in `00 Home/Agents.md` |

@@ -5,7 +5,7 @@ This Obsidian vault is the user's personal information hub, and the **Homebase**
 ## Folders
 | Folder | Contents |
 |---|---|
-| `00 Home/` | `Start here`, `Now` (the living briefing), `Profile` (app settings), `Agents`, `Goal Map.canvas`, `*.base` tables |
+| `00 Home/` | `Start here`, `Now` (the living briefing), `Profile` (app settings), `Thoughts Log`, `Agents`, `Goal Map.canvas`, `*.base` tables |
 | `01 Daily/` | One note per day, `YYYY-MM-DD.md`, from `90 Templates/Daily.md` |
 | `02 Inbox/` | Quick thoughts not sorted yet (template `Thought.md`) |
 | `03 Meetings/` | `YYYY-MM-DD Title.md` (template `Meeting.md`); link it from the day's daily note |
@@ -28,5 +28,6 @@ This Obsidian vault is the user's personal information hub, and the **Homebase**
 - When the user tells you about their day, append to today's daily note under `## 📝 Log` (create it from the template if missing).
 - Settings for the app (name, goal, focus areas, content channels) live in `00 Home/Profile.md`. Edit its frontmatter when the user changes them.
 - Agents shown in the Agent Office are the `agents:` list in `00 Home/Agents.md`.
+- **Log every thought.** Whenever the user shares a thought, idea, plan or decision, big or small, append one line to `00 Home/Thoughts Log.md` under `## Log`: `- YYYY-MM-DD HH:MM · **Project** · the thought`. Big ones also get their own note, linked from the line. The Thoughts page in Homebase reads this log.
 - Link with `[[Note name]]`. Don't rename notes without updating links.
 - If the vault is a git repo, run `git pull --rebase` before editing and commit only when the user asks.

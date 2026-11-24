@@ -33,7 +33,7 @@ Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or ed
 | Overview | `00 Home/Profile.md` (name, goal, focus areas, countdowns), `00 Home/Now.md`, tasks, content, today's daily note |
 | Projects | notes with a `priority` number and `type: product / project-note / work / study / personal` |
 | Tasks | every `- [ ]` (add `📅 2026-12-31` for a due date) |
-| Thoughts | `02 Inbox/`, `40 Ideas/`, and the "Thoughts & rants" bullets of daily notes |
+| Thoughts | `00 Home/Thoughts Log.md` (one line per thought), `02 Inbox/`, `40 Ideas/`, and the "Thoughts & rants" bullets of daily notes |
 | Content | notes with `type: content` and a `stage` |
 | Agent Office | the `agents:` list in `00 Home/Agents.md` |
 | Goal Map | `00 Home/Goal Map.canvas` |

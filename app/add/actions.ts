@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { writeNote, appendLine, dailyNote, safeName } from "@/lib/write";
+import { writeNote, appendLine, dailyNote, safeName, logThought } from "@/lib/write";
 import { loadVault, today } from "@/lib/vault";
 
 export async function addItem(fd: FormData) {
@@ -16,8 +16,8 @@ export async function addItem(fd: FormData) {
     if (hub) appendLine(hub.path, line, "## Tasks"); else appendLine(dailyNote(), line, "## 🎯 Top 3 today");
     done = `Task added to ${hub ? hub.name : "today's note"}`;
   } else if (kind === "thought") {
-    writeNote(`02 Inbox/${title}.md`, { type: "thought", date: d, status: "inbox", tags: ["thought"], summary: text.slice(0, 140) }, `\n# ${title}\n\n${s("notes")}\n`);
-    done = "Saved to your Inbox";
+    logThought(text, s("project"));
+    done = "Thought logged";
   } else if (kind === "idea") {
     writeNote(`40 Ideas/${title}.md`, { type: "idea", date: d, status: "new", tags: ["idea"], summary: s("notes").slice(0, 140) }, `\n# ${title}\n\n${s("notes")}\n`);
     done = "Idea saved";

@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { VAULT, today } from "./vault";
+import { VAULT, today, profile } from "./vault";
 
 export const safeName = (s: string) => s.replace(/[\\/:*?"<>|#^\[\]]/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
 
@@ -48,4 +48,18 @@ export function dailyNote(): string {
     fs.writeFileSync(abs, body.replace(/\{\{date:YYYY-MM-DD\}\}/g, d).replace(/\{\{date:dddd, D MMMM YYYY\}\}/g, long).replace(/\{\{title\}\}/g, d));
   }
   return rel;
+}
+
+const LOG_REL = "00 Home/Thoughts Log.md";
+/** Append one thought to the running log, creating the log note if the vault doesn't have one yet. */
+export function logThought(text: string, project?: string) {
+  const abs = path.join(VAULT, LOG_REL);
+  if (!fs.existsSync(abs)) {
+    fs.mkdirSync(path.dirname(abs), { recursive: true });
+    fs.writeFileSync(abs, `---\ntype: dashboard\nstatus: active\ndate: ${today()}\ntags: [dashboard, thoughts]\nsummary: "Running log of every thought, big or small"\n---\n# 💭 Thoughts Log\n\nOne line per thought: \`- YYYY-MM-DD HH:MM · **Project** · the thought\`.\n\n## Log\n`);
+  }
+  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: profile().timezone }).format(new Date());
+  const line = `- ${today()} ${time} · ${project ? `**${project}** · ` : ""}${text.replace(/\s*\n\s*/g, " ")}`;
+  const txt = fs.readFileSync(abs, "utf8").replace(/\n*$/, "\n");
+  fs.writeFileSync(abs, txt + line + "\n");
 }
