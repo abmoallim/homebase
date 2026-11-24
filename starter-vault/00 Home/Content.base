@@ -1,0 +1,59 @@
+filters:
+  and:
+    - 'type == "content"'
+    - '!file.inFolder("90 Templates")'
+formulas:
+  step: 'if(stage == "idea", "1 idea", if(stage == "planning", "2 planning", if(stage == "scripted", "2 scripted", if(stage == "recorded", "3 recorded", if(stage == "edited", "4 edited", if(stage == "posted", "5 posted", "0 no stage"))))))'
+properties:
+  formula.step:
+    displayName: Stage
+views:
+  - type: table
+    name: Pipeline
+    filters:
+      and:
+        - 'stage != "idea"'
+    groupBy:
+      property: formula.step
+      direction: ASC
+    order:
+      - file.name
+      - note.channel
+      - note.video_no
+      - note.episode
+      - note.voice
+      - note.publish_date
+      - note.views
+    sort:
+      - property: note.channel
+        direction: ASC
+  - type: table
+    name: Ideas backlog
+    filters:
+      and:
+        - 'stage == "idea"'
+    order:
+      - file.name
+      - note.channel
+      - note.idea_rank
+      - note.pillar
+      - note.summary
+    sort:
+      - property: note.idea_rank
+        direction: ASC
+  - type: table
+    name: Results
+    filters:
+      and:
+        - 'stage == "posted"'
+    order:
+      - file.name
+      - note.channel
+      - note.publish_date
+      - note.views
+      - note.likes
+      - note.comments
+      - note.url
+    sort:
+      - property: note.publish_date
+        direction: DESC

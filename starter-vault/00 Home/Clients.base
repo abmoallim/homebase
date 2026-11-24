@@ -1,0 +1,32 @@
+filters:
+  and:
+    - 'type == "client"'
+    - '!file.inFolder("90 Templates")'
+views:
+  - type: table
+    name: Active
+    filters:
+      and:
+        - 'status != "lost"'
+        - 'status != "dropped"'
+        - 'status != "ended"'
+    order:
+      - file.name
+      - note.project
+      - note.status
+      - note.priority
+      - note.summary
+    sort:
+      - property: note.priority
+        direction: ASC
+  - type: table
+    name: All clients
+    order:
+      - file.name
+      - note.project
+      - note.status
+      - note.date
+      - note.summary
+    groupBy:
+      property: note.project
+      direction: ASC

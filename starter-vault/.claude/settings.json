@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && { git pull --rebase --autostash -q >/dev/null 2>&1 || true; }; echo '=== Briefing (00 Home/Now.md), loaded automatically ==='; cat \"00 Home/Now.md\"; echo; echo \"Today: $(date '+%A %Y-%m-%d %H:%M')\"; f=\"01 Daily/$(date +%F).md\"; if [ -f \"$f\" ]; then echo \"=== Today's daily note ($f) ===\"; cat \"$f\"; else echo 'No daily note for today yet.'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

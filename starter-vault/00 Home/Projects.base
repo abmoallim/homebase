@@ -1,0 +1,60 @@
+filters:
+  and:
+    - '!file.inFolder("90 Templates")'
+    - 'priority > 0'
+    - 'type != "content"'
+    - 'type != "client"'
+properties:
+  note.priority:
+    displayName: "#"
+  note.mrr:
+    displayName: MRR
+  note.customers:
+    displayName: Customers
+views:
+  - type: table
+    name: Active
+    filters:
+      and:
+        - 'status != "paused"'
+        - 'status != "ended"'
+        - 'status != "archived"'
+    order:
+      - note.priority
+      - file.name
+      - note.status
+      - note.type
+      - note.mrr
+      - note.customers
+      - note.summary
+    sort:
+      - property: note.priority
+        direction: ASC
+  - type: cards
+    name: Cards
+    filters:
+      and:
+        - 'status != "paused"'
+    order:
+      - file.name
+      - note.priority
+      - note.status
+      - note.summary
+    sort:
+      - property: note.priority
+        direction: ASC
+  - type: table
+    name: Income (products)
+    filters:
+      and:
+        - 'type == "product"'
+    order:
+      - file.name
+      - note.income_source
+      - note.mrr
+      - note.customers
+      - note.status
+      - note.summary
+    sort:
+      - property: note.mrr
+        direction: DESC

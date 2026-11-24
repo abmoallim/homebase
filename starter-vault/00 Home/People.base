@@ -1,0 +1,22 @@
+filters:
+  and:
+    - 'file.inFolder("50 People")'
+views:
+  - type: table
+    name: People
+    order:
+      - file.name
+      - note.relationship
+      - note.role
+      - note.company
+      - note.last_contact
+      - note.summary
+    sort:
+      - property: note.last_contact
+        direction: DESC
+  - type: cards
+    name: Cards
+    order:
+      - file.name
+      - note.role
+      - note.summary

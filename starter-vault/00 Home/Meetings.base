@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'file.inFolder("03 Meetings")'
+views:
+  - type: table
+    name: Meetings
+    order:
+      - file.name
+      - note.date
+      - note.project
+      - note.people
+      - note.summary
+    sort:
+      - property: note.date
+        direction: DESC

@@ -1,0 +1,6 @@
+{
+ "nodes": [
+  {"id":"goal","type":"text","x":-200,"y":-200,"width":400,"height":140,"text":"# 🎯 My goal\nWrite your main goal here. Link projects below to it.\n[[Start here]]","color":"4"}
+ ],
+ "edges": []
+}
