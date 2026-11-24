@@ -19,7 +19,7 @@ The app finds your vault in this order: the `VAULT_PATH` environment variable, t
 | **Thoughts** | A timeline of everything that came to mind, big or small, with search, filters and project tags | `00 Home/Thoughts Log.md` (the running log), plus `02 Inbox/`, `40 Ideas/` and the "💭 Thoughts & rants" bullets in daily notes | Type into the box at the top of the page: it appends one line to the log |
 | **Content** | A board of your content pipeline (idea → posted) | Notes with `type: content` and a `stage` | Copy `90 Templates/Content Piece.md` |
 | **Focus** | Where your time went (needs the optional activity logger) | `00 Home/Activity/*.md` | Optional, see below |
-| **Agent Office** | A top-down floor plan of your AI agents and what each is doing | The `agents:` list in `00 Home/Agents.md` | Edit that list |
+| **Agent Office** | A top-down floor plan of your AI agents. Your roster plus live Claude Code sessions on this computer (working / waiting). Agents and sessions that stop are kept in an **Archive** below. | The `agents:` list in `00 Home/Agents.md`, and `~/.claude/projects` (read-only, optional) | Edit that list. Set an agent's `status: retired` to keep it as history instead of deleting it |
 | **Goal Map** | Your goals and projects as a canvas | `00 Home/Goal Map.canvas` (an Obsidian canvas) | Edit it in Obsidian |
 | **Journal** | A timeline of your days | `01 Daily/YYYY-MM-DD.md` | **+ Add → Log entry**, or Obsidian's daily note |
 | **People** | The people in your life and work | `50 People/` | **+ Add → Person** |

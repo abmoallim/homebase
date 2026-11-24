@@ -59,7 +59,7 @@ export default function Office({ agents, rooms }: { agents: Agent[]; rooms?: { i
   const desks = useMemo(() => {
     const pos: Record<string, { x: number; y: number }> = {};
     for (const r of ROOMS) {
-      const inRoom = agents.filter(a => (ROOMS.find(x => x.id === a.room) ? a.room : ROOMS[4].id) === r.id);
+      const inRoom = agents.filter(a => (a.kind === "Claude session" ? ROOMS[3].id : ROOMS.find(x => x.id === a.room) ? a.room : ROOMS[4].id) === r.id);
       const slots = deskSlots(r, inRoom.length);
       inRoom.forEach((a, i) => (pos[a.id] = slots[i]));
     }
@@ -95,7 +95,7 @@ export default function Office({ agents, rooms }: { agents: Agent[]; rooms?: { i
               </div>
             ))}
             {/* desks */}
-            {agents.map(a => { const d = desks[a.id]; const st = STATUS[a.status] || STATUS.idle; const r = ROOMS.find(x => x.id === a.room) || ROOMS[4]; return (
+            {agents.map(a => { const d = desks[a.id]; const st = STATUS[a.status] || STATUS.idle; const r = a.kind === "Claude session" ? ROOMS[3] : ROOMS.find(x => x.id === a.room) || ROOMS[4]; return (
               <div key={"desk" + a.id} className="absolute" style={{ left: d.x - 46, top: d.y - 8, width: 92, height: 44 }}>
                 <div className="absolute inset-0 rounded-[10px]" style={{ background: "#2a2018", border: "1px solid #6f4e3788", boxShadow: "0 6px 14px -6px #000" }} />
                 <div className={`absolute left-1/2 -translate-x-1/2 top-[6px] w-[46px] h-[7px] rounded-[3px] ${a.status === "working" ? "screen" : ""}`} style={{ background: a.status === "idle" ? "#333" : st.c, boxShadow: a.status !== "idle" ? `0 0 12px ${st.c}` : "none" }} />

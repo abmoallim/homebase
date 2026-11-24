@@ -117,18 +117,18 @@ export type Agent = {
   id: string; name: string; role: string; team: string; room: string; status: string;
   task: string; project?: string; projectHref?: string; kind?: string; color?: string; schedule?: string; log: string[];
 };
-export function agents(): { agents: Agent[]; note?: string } {
+export function agents(): { agents: Agent[]; note?: string; archive: Agent[] } {
   const n = resolve("Agents");
-  if (!n) return { agents: [] };
+  if (!n) return { agents: [], archive: [] };
   const list = (n.fm.agents || []) as any[];
-  return {
-    note: noteHref(n),
-    agents: list.map((a, i) => ({
+  const all: Agent[] = list.map((a, i) => ({
       id: String(a.id || i), name: a.name, role: a.role || "", team: a.team || "", room: a.room || "Ops",
       status: a.status || "idle", task: plain(a.task || ""), project: a.project, projectHref: a.project ? (resolve(a.project) ? noteHref(resolve(a.project)!) : undefined) : undefined,
       kind: a.kind, color: a.color, schedule: a.schedule, log: (a.log || []).map((l: string) => plain(l)),
-    })),
-  };
+    }));
+  // Agents marked retired/inactive/archived stay in the file as history and show in the Archive, not on the floor.
+  const isOld = (a: Agent) => ["retired", "inactive", "archived", "stopped"].includes(a.status);
+  return { note: noteHref(n), agents: all.filter(a => !isOld(a)), archive: all.filter(isOld) };
 }
 
 export type ActSession = { project: string; priority: number; path: string; start: string; end: string; minutes: number; prompts: number; late_minutes: number; first: string };
