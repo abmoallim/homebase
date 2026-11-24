@@ -28,6 +28,10 @@ export async function addItem(fd: FormData) {
     const pr = Number(s("priority")) || 5;
     writeNote(`10 Projects/${title}/${title}.md`, { type: "project-note", project: title, status: "active", priority: pr, date: d, tags: ["project"], summary: s("notes") }, `\n# ${title}\n\n${s("notes")}\n\n## Tasks\n- [ ] First step\n`);
     done = "Project created";
+  } else if (kind === "tool") {
+    const built = s("toolkind") === "built";
+    writeNote(`70 Tools/${title}.md`, { type: "tool", kind: built ? "built" : "used", category: s("category") || "Other", status: "active", ...(s("url") ? { url: s("url") } : {}), since: d, date: d, tags: ["tool"], summary: s("notes").slice(0, 140) }, `\n# ${title}\n\n${s("notes")}\n`);
+    done = "Tool added";
   } else if (kind === "log") {
     appendLine(dailyNote(), `- ${text}`, "## 📝 Log");
     done = "Added to today's log";

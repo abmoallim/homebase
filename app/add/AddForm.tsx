@@ -6,6 +6,7 @@ const KINDS = [
   { k: "task", label: "Task", ph: "What needs doing?" }, { k: "log", label: "Log entry", ph: "What happened today?" },
   { k: "thought", label: "Thought", ph: "Whatever is on your mind" }, { k: "idea", label: "Idea", ph: "Name of the idea" },
   { k: "person", label: "Person", ph: "Their name" }, { k: "project", label: "Project", ph: "Project name" },
+  { k: "tool", label: "Tool", ph: "Tool name" },
 ];
 const inp = "w-full bg-[rgba(255,255,255,0.03)] border border-line rounded-xl px-3 py-2 text-[14px] outline-none focus:border-brass";
 
@@ -28,8 +29,15 @@ export default function AddForm({ projects }: { projects: string[] }) {
         </div>
       )}
       {kind === "project" && <input name="priority" type="number" min={1} max={9} placeholder="Priority (1 = most important)" className={inp} />}
-      {["idea", "person", "project"].includes(kind) && (
-        <textarea name="notes" rows={3} placeholder={kind === "person" ? "Who are they?" : "Details (optional)"} className={inp} />
+      {kind === "tool" && (
+        <div className="grid sm:grid-cols-3 gap-3">
+          <select name="toolkind" className={inp}><option value="used">A tool I use</option><option value="built">A tool I built</option></select>
+          <input name="category" placeholder="Category (AI, Dev, Finance…)" className={inp} />
+          <input name="url" placeholder="Link (optional)" className={inp} />
+        </div>
+      )}
+      {["idea", "person", "project", "tool"].includes(kind) && (
+        <textarea name="notes" rows={3} placeholder={kind === "person" ? "Who are they?" : kind === "tool" ? "What is it for?" : "Details (optional)"} className={inp} />
       )}
       <button className="rounded-full bg-brass text-[#06110c] font-medium px-6 py-2.5 text-[14px]">Add</button>
     </form>

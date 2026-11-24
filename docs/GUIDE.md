@@ -23,8 +23,9 @@ The app finds your vault in this order: the `VAULT_PATH` environment variable, t
 | **Goal Map** | Your goals and projects as a canvas | `00 Home/Goal Map.canvas` (an Obsidian canvas) | Edit it in Obsidian |
 | **Journal** | A timeline of your days | `01 Daily/YYYY-MM-DD.md` | **+ Add → Log entry**, or Obsidian's daily note |
 | **People** | The people in your life and work | `50 People/` | **+ Add → Person** |
+| **Tools** | What you built and the tools you use (apps, services, AI), grouped by category, with link, cost and what each is for | `70 Tools/` (notes with `type: tool`, `kind: built` or `used`) | **+ Add → Tool**, or copy `90 Templates/Tool.md` |
 
-**+ Add** (bottom of the sidebar) writes straight into your vault: task, log entry, thought, idea, person or project. **Open vault in Obsidian** opens the same folder in Obsidian.
+**+ Add** (bottom of the sidebar) writes straight into your vault: task, log entry, thought, idea, person, project or tool. **Open vault in Obsidian** opens the same folder in Obsidian.
 
 ## 3. The thoughts flow
 Thoughts come in every size, so there are three ways to keep them, and the Thoughts page shows all of them together:
@@ -43,6 +44,7 @@ Thoughts come in every size, so there are three ways to keep them, and the Thoug
 | `20 Work/`, `30 Study/`, `60 Personal/` | Job, learning, personal goals |
 | `40 Ideas/` | Developed ideas |
 | `50 People/` | One note per person |
+| `70 Tools/` | One note per tool you built or use |
 | `90 Templates/` | Templates only |
 | `99 Attachments/` | Images and files |
 

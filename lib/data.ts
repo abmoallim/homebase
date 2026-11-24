@@ -97,6 +97,21 @@ export function people() {
   })).sort((a, b) => String(b.last).localeCompare(String(a.last)));
 }
 
+export type Tool = {
+  name: string; href: string; kind: "built" | "used"; category: string; summary: string; status: string;
+  url?: string; cost?: string; since?: string; projects: string[];
+};
+/** Every note with `type: tool`: things you built (`kind: built`) and things you use (`kind: used`). */
+export function tools(): Tool[] {
+  return loadVault().notes.filter(n => n.fm.type === "tool").map(n => ({
+    name: n.name, href: noteHref(n), kind: n.fm.kind === "built" ? "built" as const : "used" as const,
+    category: String(n.fm.category || "Other"), summary: plain(n.fm.summary || ""), status: String(n.fm.status || "active"),
+    url: n.fm.url ? String(n.fm.url) : undefined, cost: n.fm.cost ? String(n.fm.cost) : undefined,
+    since: n.fm.since ? String(n.fm.since) : undefined,
+    projects: (Array.isArray(n.fm.projects) ? n.fm.projects : []).map((p: unknown) => plain(String(p))),
+  })).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export function clients() {
   return loadVault().notes.filter(n => n.fm.type === "client").map(n => ({
     name: n.name, href: noteHref(n), project: n.fm.project, status: n.fm.status, summary: plain(n.fm.summary || ""),

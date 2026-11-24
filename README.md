@@ -41,6 +41,7 @@ Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or co
 | Goal Map | `00 Home/Goal Map.canvas` |
 | Journal | `01 Daily/` |
 | People | `50 People/` |
+| Tools | `70 Tools/` (notes with `type: tool`, `kind: built` or `used`) |
 | Focus | `00 Home/Activity/*.md` (optional, time tracking written by a script) |
 
 Everything personal (your name, goal, focus areas, content channels, room names, timezone) lives in `00 Home/Profile.md`; the app code has none of it. See `starter-vault/00 Home/Start here.md`.

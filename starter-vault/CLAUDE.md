@@ -15,6 +15,7 @@ This Obsidian vault is the user's personal information hub, and the **Homebase**
 | `40 Ideas/` | Developed ideas (template `Idea.md`) |
 | `50 People/` | One note per person (template `Person.md`) |
 | `60 Personal/` | Health, habits, personal goals |
+| `70 Tools/` | One note per tool: things the user built (`kind: built`) and tools they use (`kind: used`), template `Tool.md`. Shown on the Tools page |
 | `90 Templates/` | Templates only |
 | `99 Attachments/` | Images and files |
 
@@ -22,7 +23,7 @@ This Obsidian vault is the user's personal information hub, and the **Homebase**
 - **`00 Home/Now.md` is the living briefing.** Whenever goals, this week's focus, decisions or waiting-on items change, update it in the same turn.
 - Every note gets frontmatter with at least `type`, `date` (YYYY-MM-DD), `project`, `status`, `tags` and a one-line `summary`. Homebase depends on these fields.
 - Hub notes (what the Projects page lists) have a `priority` number (1 = most important) and `type: product | project-note | work | study | personal`. Products that earn money also have `mrr` and `customers`. Paused projects have `status: paused` and no open tasks.
-- `type` values: content, daily, weekly, thought, meeting, idea, person, product, project-note, client, plan, goal, work, study, dashboard.
+- `type` values: content, daily, weekly, thought, meeting, idea, person, tool, product, project-note, client, plan, goal, work, study, dashboard.
 - `status` values: inbox, new, draft, active, paused, ending, ended, open, delivered, dropped, lost, reference, archived.
 - Tasks are `- [ ]` lines (closed: `- [x]`, cancelled: `- [-]`); add `📅 YYYY-MM-DD` for a due date. They show up on the Tasks page.
 - When the user tells you about their day, append to today's daily note under `## 📝 Log` (create it from the template if missing).
