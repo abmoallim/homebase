@@ -63,3 +63,18 @@ export function logThought(text: string, project?: string) {
   const txt = fs.readFileSync(abs, "utf8").replace(/\n*$/, "\n");
   fs.writeFileSync(abs, txt + line + "\n");
 }
+
+/** Append a follow-up to a thought's own thread note, creating `00 Home/Thoughts/<date> <words>.md` on the first one. */
+export function addToThread(id: string, original: { raw: string; date: string; project?: string }, text: string, existing?: string) {
+  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: profile().timezone }).format(new Date());
+  const line = `- ${today()} ${time} · ${text.replace(/\s*\n\s*/g, " ")}`;
+  let rel = existing;
+  if (!rel) {
+    const words = safeName(original.raw.replace(/[`*_\[\]()]/g, "")).split(" ").slice(0, 6).join(" ");
+    rel = writeNote(`00 Home/Thoughts/${original.date} ${words}.md`,
+      { type: "thread", thought_id: id, ...(original.project ? { project: original.project } : {}), date: original.date, tags: ["thought"], summary: safeName(original.raw).slice(0, 140) },
+      `\n# ${words}\n\n> ${original.raw.replace(/\s*\n\s*/g, " ")}\n\nOne thought, with what came after it. Source line: [[Thoughts Log]].\n\n## Thread\n`);
+  }
+  const abs = path.join(VAULT, rel);
+  fs.writeFileSync(abs, fs.readFileSync(abs, "utf8").replace(/\n*$/, "\n") + line + "\n");
+}

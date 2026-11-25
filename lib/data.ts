@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { loadVault, plain, today as todayStr, profile, daysUntil, noteHref, resolve, type Note, type Task } from "./vault";
 
 const ACTIVE = (s?: string) => !["paused", "ended", "archived", "dropped", "lost"].includes(s || "");
@@ -157,7 +158,27 @@ export function activity(days = 30): ActDay[] {
     }));
 }
 
-export type Thought = { kind: "log" | "inbox" | "idea" | "journal"; title: string; text: string; href: string; date: string; time?: string; project?: string };
+export type Thought = { kind: "log" | "inbox" | "idea" | "journal"; title: string; text: string; href: string; date: string; time?: string; project?: string; id?: string; updates?: number; raw?: string };
+export type ThreadEntry = { date: string; time?: string; text: string };
+const thoughtId = (date: string, time: string | undefined, text: string) =>
+  `${date}-${(time || "0000").replace(":", "").padStart(4, "0")}-${createHash("sha1").update(text).digest("hex").slice(0, 6)}`;
+const THREAD_LINE = /^\s*[-*]\s+(\d{4}-\d{2}-\d{2})(?:\s+(\d{1,2}:\d{2}))?\s+[·|-]\s+(.+)$/;
+/** Follow-ups to a log thought live in their own note (`00 Home/Thoughts/…`, type: thread), found by `thought_id`. */
+function threadFor(id: string) {
+  return loadVault().notes.find(n => n.fm.type === "thread" && n.fm.thought_id === id);
+}
+function threadEntries(n?: Note): ThreadEntry[] {
+  if (!n) return [];
+  const body = n.body.split(/\n## Thread[^\n]*\n/)[1] || "";
+  return body.split("\n").map(l => l.match(THREAD_LINE)).filter(Boolean).map(m => ({ date: m![1], time: m![2], text: m![3] }));
+}
+/** One log thought on its own, with its thread of follow-ups (oldest first). */
+export function thought(id: string): { thought: Thought; raw: string; entries: ThreadEntry[]; threadPath?: string } | undefined {
+  const t = thoughts().find(x => x.id === id);
+  if (!t) return undefined;
+  const th = threadFor(id);
+  return { thought: t, raw: t.raw || t.title, entries: threadEntries(th), threadPath: th?.path };
+}
 const LOG_LINE = /^\s*[-*]\s+(\d{4}-\d{2}-\d{2})(?:\s+(\d{1,2}:\d{2}))?\s+[·|-]\s+(?:\*\*(.+?)\*\*\s+[·|-]\s+)?(.+)$/;
 /** Everything you've thought: the running log (`00 Home/Thoughts Log.md`), unsorted notes in 02 Inbox, developed ideas, and the "Thoughts & rants" bullets of daily notes. */
 export function thoughts(): Thought[] {
@@ -168,7 +189,7 @@ export function thoughts(): Thought[] {
     if (n.name === "Thoughts Log") {
       for (const line of n.body.split("\n")) {
         const m = line.match(LOG_LINE);
-        if (m) out.push({ kind: "log", title: plain(m[4]), text: "", href: noteHref(n), date: m[1], time: m[2], project: m[3] });
+        if (m) { const id = thoughtId(m[1], m[2], m[4]); out.push({ kind: "log", title: plain(m[4]), text: "", href: `/thoughts/${id}`, date: m[1], time: m[2], project: m[3], id, raw: m[4], updates: threadEntries(threadFor(id)).length }); }
       }
     } else if (n.folder === "02 Inbox" || n.fm.type === "thought")
       out.push({ kind: "inbox", title: n.name, text: plain(n.fm.summary || ""), href: noteHref(n), date });

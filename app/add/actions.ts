@@ -1,6 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
-import { writeNote, appendLine, dailyNote, safeName, logThought } from "@/lib/write";
+import { writeNote, appendLine, dailyNote, safeName, logThought, addToThread } from "@/lib/write";
+import { thought } from "@/lib/data";
 import { loadVault, today } from "@/lib/vault";
 
 export async function addItem(fd: FormData) {
@@ -37,4 +38,13 @@ export async function addItem(fd: FormData) {
     done = "Added to today's log";
   }
   redirect((s("from") === "thoughts" || kind === "thought" ? "/thoughts" : "/add") + "?done=" + encodeURIComponent(done));
+}
+
+/** Add a follow-up to one thought's thread. */
+export async function addThreadEntry(fd: FormData) {
+  const id = String(fd.get("id") || ""), text = String(fd.get("text") || "").trim();
+  const t = thought(id);
+  if (!t || !text) redirect(t ? `/thoughts/${id}` : "/thoughts");
+  addToThread(id, { raw: t.raw, date: t.thought.date, project: t.thought.project }, text, t.threadPath);
+  redirect(`/thoughts/${id}`);
 }

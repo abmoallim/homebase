@@ -51,6 +51,7 @@ export default function ThoughtsBoard({ items, projects }: { items: Thought[]; p
                 </div>
                 <div className="text-[14.5px] leading-relaxed">{t.title}</div>
                 {t.text && <div className="text-[13px] text-muted mt-1.5">{t.text}</div>}
+                {!!t.updates && <div className="text-[12px] text-brass mt-2 font-mono">+{t.updates} in thread</div>}
               </Link>
             ))}
           </div>
