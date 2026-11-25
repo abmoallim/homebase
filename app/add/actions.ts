@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { writeNote, appendLine, dailyNote, safeName, logThought, addToThread } from "@/lib/write";
+import { writeNote, appendLine, dailyNote, safeName, logThought, addToThread, addDecision } from "@/lib/write";
 import { thought } from "@/lib/data";
 import { loadVault, today } from "@/lib/vault";
 
@@ -47,4 +47,12 @@ export async function addThreadEntry(fd: FormData) {
   if (!t || !text) redirect(t ? `/thoughts/${id}` : "/thoughts");
   addToThread(id, { raw: t.raw, date: t.thought.date, project: t.thought.project }, text, t.threadPath);
   redirect(`/thoughts/${id}`);
+}
+
+/** Log a decision or an action taken; `thought_id` ties it to the thought it came from. */
+export async function addDecisionAction(fd: FormData) {
+  const s = (k: string) => String(fd.get(k) || "").trim();
+  if (!s("text")) redirect(s("from") || "/decisions");
+  addDecision(s("text"), s("why"), s("project") || undefined, s("thought_id") || undefined);
+  redirect(s("from") || "/decisions");
 }

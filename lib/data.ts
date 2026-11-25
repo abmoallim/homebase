@@ -205,3 +205,15 @@ export function thoughts(): Thought[] {
   }
   return out.sort((a, b) => (b.date + (b.time || "").padStart(5, "0")).localeCompare(a.date + (a.time || "").padStart(5, "0")));
 }
+
+export type Decision = { title: string; why: string; href: string; date: string; time?: string; project?: string; thoughtId?: string; thoughtTitle?: string };
+/** What you decided or did, one note each in `00 Home/Decisions/` (type: decision). `thought_id` links one back to the thought it came from. */
+export function decisions(): Decision[] {
+  const notes = loadVault().notes;
+  const logThoughts = new Map(thoughts().filter(t => t.id).map(t => [t.id!, t.title]));
+  return notes.filter(n => n.fm.type === "decision").map(n => ({
+    title: n.name.replace(/^\d{4}-\d{2}-\d{2}\s+/, ""), why: plain(n.fm.summary || ""), href: noteHref(n),
+    date: String(n.fm.date || new Date(n.mtime).toISOString().slice(0, 10)), time: n.fm.time ? String(n.fm.time) : undefined,
+    project: n.fm.project || undefined, thoughtId: n.fm.thought_id || undefined, thoughtTitle: n.fm.thought_id ? logThoughts.get(String(n.fm.thought_id)) : undefined,
+  })).sort((a, b) => (b.date + (b.time || "")).localeCompare(a.date + (a.time || "")));
+}

@@ -31,6 +31,7 @@ The app finds your vault in this order: the `VAULT_PATH` environment variable, t
 Thoughts come in every size, so there are three ways to keep them, and the Thoughts page shows all of them together:
 1. **The log (default).** Type into the box on **Thoughts**, or tell your assistant. Each thought becomes one line in `00 Home/Thoughts Log.md`: `- 2026-11-24 14:05 · **Project** · the thought`. Small thoughts and big ones both start here, and you can back-fill old ones by hand (where did each project begin?).
    Click a log thought to open it on its own page. Add follow-ups there (a change, an update, where it went) and they are saved as a thread in `00 Home/Thoughts/<date> <words>.md`, created on the first follow-up. A one-liner never needs one.
+   Thoughts are the reasons and ideas. What you decided or did because of one goes on the **Decisions** page: one note each in `00 Home/Decisions/` (`type: decision`, optional `thought_id` linking back). Log one from a thought's page and it shows under "What came of it" there and "came from" on Decisions.
 2. **A note of its own.** When a thought grows, make a note for it in `02 Inbox/` (or `40 Ideas/` once it's developed) and link it from the log line with `[[Note name]]`.
 3. **The journal.** Quick rants and reflections in a daily note under **💭 Thoughts & rants** also appear on the page (tagged *Journal*).
 

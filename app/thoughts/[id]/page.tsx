@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { connection } from "next/server";
-import { thought } from "@/lib/data";
+import { thought, decisions } from "@/lib/data";
 import { Reveal } from "@/components/ui";
 import Md from "@/components/Md";
-import { addThreadEntry } from "@/app/add/actions";
+import { addThreadEntry, addDecisionAction } from "@/app/add/actions";
 
 const when = (d: string, t?: string) => new Date(d + "T12:00:00Z").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) + (t ? ` · ${t}` : "");
 
@@ -13,6 +13,7 @@ export default async function ThoughtPage({ params }: { params: Promise<{ id: st
   const t = thought(id);
   if (!t) return <div className="space-y-3"><Link href="/thoughts" className="text-[13px] text-faint hover:text-brass">← All thoughts</Link><p className="text-muted">That thought is not in the log any more.</p></div>;
   const { thought: th, entries } = t;
+  const came = decisions().filter(d => d.thoughtId === id);
   return (
     <div className="max-w-[860px] space-y-6">
       <Reveal>
@@ -43,6 +44,25 @@ export default async function ThoughtPage({ params }: { params: Promise<{ id: st
           <button className="rounded-full bg-brass text-[#06110c] font-medium px-5 py-1.5 text-[13px]">Add to thread</button>
         </form>
         {!entries.length && <p className="text-faint text-[12px] mt-3">Nothing added yet. A one-liner can stay a one-liner.</p>}
+      </section>
+      <section>
+        <div className="eyebrow mb-3">What came of it{came.length ? ` · ${came.length}` : ""}</div>
+        <div className="space-y-3 mb-4">
+          {came.map((d, i) => (
+            <Link key={i} href={d.href} className="panel panel-hover block px-5 py-4">
+              <div className="text-faint font-mono text-[11px] mb-1.5">{when(d.date, d.time)}</div>
+              <div className="text-[14.5px]">{d.title}</div>
+              {d.why && <div className="text-[13px] text-muted mt-1.5">{d.why}</div>}
+            </Link>
+          ))}
+        </div>
+        <form action={addDecisionAction} className="panel p-4 flex flex-wrap gap-3 items-center">
+          <input type="hidden" name="thought_id" value={id} />
+          <input type="hidden" name="project" value={th.project || ""} />
+          <input type="hidden" name="from" value={`/thoughts/${id}`} />
+          <input name="text" required placeholder="A decision or action taken because of this thought…" className="flex-1 min-w-[260px] bg-transparent outline-none text-[15px]" />
+          <button className="rounded-full bg-brass text-[#06110c] font-medium px-5 py-1.5 text-[13px]">Log decision</button>
+        </form>
       </section>
     </div>
   );

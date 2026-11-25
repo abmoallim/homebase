@@ -78,3 +78,12 @@ export function addToThread(id: string, original: { raw: string; date: string; p
   const abs = path.join(VAULT, rel);
   fs.writeFileSync(abs, fs.readFileSync(abs, "utf8").replace(/\n*$/, "\n") + line + "\n");
 }
+
+/** One decision (or action taken) as its own note in `00 Home/Decisions/`, optionally linked to the thought it came from. */
+export function addDecision(title: string, why: string, project?: string, thoughtId?: string) {
+  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: profile().timezone }).format(new Date());
+  const name = safeName(title);
+  return writeNote(`00 Home/Decisions/${today()} ${name}.md`,
+    { type: "decision", date: today(), time, ...(project ? { project } : {}), ...(thoughtId ? { thought_id: thoughtId } : {}), tags: ["decision"], summary: why.slice(0, 200) },
+    `\n# ${name}\n\n${why ? why + "\n" : ""}`);
+}
