@@ -6,7 +6,7 @@ import os from "node:os";
 import ical from "node-ical";
 import { loadVault, noteHref, plain, profile } from "./vault";
 
-export type CalItem = { date: string; time?: string; title: string; kind: "google" | "task" | "meeting" | "daily"; href?: string; place?: string; overdue?: boolean; calendar?: string };
+export type CalItem = { date: string; time?: string; end?: string; title: string; kind: "google" | "task" | "meeting" | "daily"; href?: string; place?: string; overdue?: boolean; calendar?: string };
 
 export function calendarUrls(): string[] {
   let v: unknown = process.env.CALENDAR_ICAL;
@@ -69,7 +69,7 @@ export async function googleEvents(from: string, to: string): Promise<{ items: C
             }
           } else {
             const k = dayKey(s.start, tz);
-            if (k >= from && k <= to) items.push({ date: k, time: hhmm(s.start, tz), title, kind: "google", place });
+            if (k >= from && k <= to) { const e = dayKey(end, tz) === k ? hhmm(end, tz) : "24:00"; items.push({ date: k, time: hhmm(s.start, tz), end: dur > 0 && e > hhmm(s.start, tz) ? e : undefined, title, kind: "google", place }); }
           }
         }
       }
