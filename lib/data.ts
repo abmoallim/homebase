@@ -217,3 +217,21 @@ export function decisions(): Decision[] {
     project: n.fm.project || undefined, thoughtId: n.fm.thought_id || undefined, thoughtTitle: n.fm.thought_id ? logThoughts.get(String(n.fm.thought_id)) : undefined,
   })).sort((a, b) => (b.date + (b.time || "")).localeCompare(a.date + (a.time || "")));
 }
+
+const section = (body: string, head: RegExp) => {
+  const m = body.match(new RegExp("## " + head.source + "[^\\n]*\\n([\\s\\S]*?)(?=\\n## |$)"));
+  return (m?.[1] || "").split("\n").map(l => l.replace(/^\s*[-*]\s*(\[.\]\s*)?/, "").trim()).filter(l => l && !l.startsWith("<!--") && !l.startsWith("---"));
+};
+/** Everything for one date: the daily note's sections, thoughts, decisions, focus time. */
+export function dayView(date: string) {
+  const n = loadVault().notes.find(x => x.fm.type === "daily" && String(x.fm.date) === date);
+  const body = n?.body || "";
+  return {
+    note: n ? { name: n.name, href: noteHref(n), summary: plain(n.fm.summary || ""), mood: n.fm.mood, energy: n.fm.energy, sleep: n.fm.sleep_hours } : undefined,
+    log: section(body, /📝 Log/), wins: section(body, /✅ Wins/), meetings: section(body, /🤝 Meetings/), tomorrow: section(body, /🔁 Tomorrow/),
+    top3: section(body, /🎯 Top 3/),
+    thoughts: thoughts().filter(t => t.date === date),
+    decisions: decisions().filter(d => d.date === date),
+    activity: activity(400).find(a => a.date === date),
+  };
+}

@@ -155,9 +155,9 @@ export default async function Overview() {
           </div>
         </Reveal>
         <Reveal delay={0.4} className="lg:col-span-5 panel p-6">
-          <div className="flex items-center justify-between"><div className="eyebrow">Today</div><Link href="/journal" className="text-[12px] text-brass">Journal →</Link></div>
+          <div className="flex items-center justify-between"><div className="eyebrow">Today</div><div className="flex gap-4"><Link href={`/day/${today}`} className="text-[12px] text-brass">Summary →</Link><Link href="/journal" className="text-[12px] text-brass">Journal →</Link></div></div>
           {todayNote ? (
-            <Link href={todayNote.href} className="block mt-3">
+            <Link href={`/day/${today}`} className="block mt-3">
               <div className="serif text-[26px] leading-tight">{todayNote.summary || "Today"}</div>
               <div className="flex flex-wrap gap-2 mt-3">{(todayNote.focus as string[]).map(f => <span key={f} className="chip">{f}</span>)}</div>
             </Link>

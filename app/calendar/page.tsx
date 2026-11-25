@@ -103,6 +103,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
               {it.place && <div className="text-[12px] text-faint mt-0.5">{it.place}</div>}
             </div>))}</div> : <p className="text-muted text-[14px]">Nothing on this day.</p>}
           <Link href={href("day", sel)} className="block text-[12px] text-brass mt-4">Open day view →</Link>
+          <Link href={`/day/${sel}`} className="block text-[12px] text-brass mt-2">Day summary →</Link>
         </aside>
       </div>}
     </div>
