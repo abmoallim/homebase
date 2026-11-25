@@ -7,6 +7,7 @@ import PrivacyToggle from "./PrivacyToggle";
 const NAV = [
   { href: "/", label: "Overview", icon: "◎" },
   { href: "/projects", label: "Projects", icon: "▦" },
+  { href: "/calendar", label: "Calendar", icon: "▤" },
   { href: "/tasks", label: "Tasks", icon: "✓" },
   { href: "/thoughts", label: "Thoughts", icon: "✎" },
   { href: "/decisions", label: "Decisions", icon: "⚑" },

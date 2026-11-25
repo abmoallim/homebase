@@ -67,3 +67,6 @@ Open the **vault** folder (not the app) in Claude Code or any assistant that rea
 
 ## 8. The optional Focus page
 Focus charts time spent per project from daily files like `00 Home/Activity/2026-11-24.md` (frontmatter: `type: activity`, `active_minutes`, `priority_minutes`, `late_minutes`, `projects`, `by_project`, `sessions`). Homebase doesn't ship the logger that writes them, so the page is empty until you add one.
+
+## Calendar
+The **Calendar** page puts your Google events, open tasks with a 📅 date, notes in `03 Meetings/` and daily notes on one month grid. To show Google events, copy the calendar's secret iCal address (Google Calendar → Settings → your calendar → Integrate calendar → *Secret address in iCal format*) into `homebase.config.json` as `"calendar"` (a list of addresses works too), or set `CALENDAR_ICAL`. It is read-only and refreshes every 5 minutes. Treat the address like a password; the config file is not committed.
