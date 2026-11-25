@@ -101,3 +101,6 @@ body { font-family: var(--font-inter), system-ui, sans-serif; }
 /* Privacy mode: money figures are blurred while <html data-private="1"> (the default on every load). */
 [data-private="1"] .money { filter: blur(9px); user-select: none; pointer-events: none; }
 .money { transition: filter .25s ease; }
+
+/* Native dropdown lists: readable on the dark theme */
+select option { background: #10221a; color: #f4eee1; }
