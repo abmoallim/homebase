@@ -2,13 +2,13 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { dayView, tasks } from "@/lib/data";
 import { today as todayStr } from "@/lib/vault";
-import { googleEvents, vaultItems, type CalItem } from "@/lib/calendar";
+import { calendarItems, type CalItem } from "@/lib/calendar";
 import { Reveal } from "@/components/ui";
 import Md from "@/components/Md";
 
 const addDays = (d: string, n: number) => new Date(new Date(d + "T12:00:00Z").getTime() + n * 86400000).toISOString().slice(0, 10);
 const fmt = (d: string, o: Intl.DateTimeFormatOptions) => new Date(d + "T12:00:00Z").toLocaleDateString("en-GB", { ...o, timeZone: "UTC" });
-const COLOR: Record<string, string> = { google: "#8fb8d8", task: "#C9A45C", meeting: "#5FB58C", daily: "#9aa79e" };
+const COLOR: Record<string, string> = { event: "#8fb8d8", task: "#C9A45C", meeting: "#5FB58C", daily: "#9aa79e" };
 const nav = "px-4 py-1.5 rounded-full text-[13px] border border-line text-muted hover:text-text";
 
 function Block({ title, count, children, empty }: { title: string; count?: number; children?: React.ReactNode; empty?: string }) {
@@ -22,7 +22,7 @@ function Block({ title, count, children, empty }: { title: string; count?: numbe
 function Events({ items }: { items: CalItem[] }) {
   if (!items.length) return null;
   return <div className="space-y-2">{items.map((it, i) => {
-    const row = <span className="flex items-baseline gap-2 text-[14px]"><span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: it.overdue ? "#e0725c" : COLOR[it.kind] }} /><span className="font-mono text-faint text-[12px] w-12 shrink-0">{it.time || "all day"}</span><span>{it.title}</span></span>;
+    const row = <span className="flex items-baseline gap-2 text-[14px]"><span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: it.overdue ? "#e0725c" : it.color || COLOR[it.kind] }} /><span className="font-mono text-faint text-[12px] w-12 shrink-0">{it.time || "all day"}</span><span>{it.title}</span></span>;
     return it.href ? <Link key={i} href={it.href} className="block hover:text-brass">{row}</Link> : <div key={i}>{row}</div>;
   })}</div>;
 }
@@ -33,8 +33,7 @@ export default async function DayPage({ params }: { params: Promise<{ date: stri
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return <p className="text-muted">Not a date: {date}</p>;
   const now = todayStr(), next = addDays(date, 1);
   const v = dayView(date);
-  const g = await googleEvents(date, next);
-  const items = [...vaultItems(date, next), ...g.items].filter(x => x.kind !== "daily");
+  const items = calendarItems(date, next).filter(x => x.kind !== "daily");
   const sort = (a: CalItem, b: CalItem) => (a.time || "").localeCompare(b.time || "");
   const today = items.filter(x => x.date === date).sort(sort), tomorrow = items.filter(x => x.date === next).sort(sort);
   const overdue = date === now ? tasks().filter(t => t.overdue).slice(0, 8) : [];
@@ -109,7 +108,6 @@ export default async function DayPage({ params }: { params: Promise<{ date: stri
           <Events items={tomorrow} />
         </div>}
       </Block>
-      {g.error && <div className="chip !text-[#e0725c]">Google Calendar: {g.error}</div>}
     </div>
   );
 }

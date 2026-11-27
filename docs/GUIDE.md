@@ -69,4 +69,26 @@ Open the **vault** folder (not the app) in Claude Code or any assistant that rea
 Focus charts time spent per project from daily files like `00 Home/Activity/2026-11-24.md` (frontmatter: `type: activity`, `active_minutes`, `priority_minutes`, `late_minutes`, `projects`, `by_project`, `sessions`). Homebase doesn't ship the logger that writes them, so the page is empty until you add one.
 
 ## Calendar
-The **Calendar** page puts your Google events, open tasks with a 📅 date, notes in `03 Meetings/` and daily notes on one month grid. To show Google events, copy the calendar's secret iCal address (Google Calendar → Settings → your calendar → Integrate calendar → *Secret address in iCal format*) into `homebase.config.json` as `"calendar"` (a list of addresses works too), or set `CALENDAR_ICAL`. It is read-only and refreshes every 5 minutes. Treat the address like a password; the config file is not committed.
+Your own calendar, stored in the vault. Day, week and month views. Click or drag on empty time to add an event, drag an event to move it, drag its bottom edge to change its length, and click it to edit or delete. Events can repeat daily, weekly (on the days you pick), monthly or yearly, every N, with an optional end date. For a repeating event you choose **this event**, **this and following** or **all events**. Each change has an **Undo**, and deleted events go to the vault's `.trash` folder. Open tasks with a 📅 date, notes in `03 Meetings/` and daily notes show alongside.
+
+Each event is one note in `00 Home/Calendar/`, so you can also edit it in Obsidian or ask Claude to add it:
+
+```yaml
+---
+type: event
+title: Gym
+date: '2026-12-01'      # first (or only) day
+start: '17:00'          # leave out start and end for an all-day event
+end: '18:00'
+repeat: weekly          # optional: daily, weekly, monthly, yearly
+every: 1                # optional: every N days, weeks, months or years
+days: [mon, wed]        # weekly only
+until: '2027-03-01'     # optional last day
+place: Eastleigh        # optional
+color: '#5FB58C'        # optional
+skip: ['2026-12-07']    # dates left out of the series
+changes:                # single dates that differ from the series
+  '2026-12-09': { start: '18:00', end: '19:00' }
+---
+Notes go here.
+```
