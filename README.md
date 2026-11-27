@@ -1,6 +1,6 @@
 # Homebase
 
-Your Obsidian vault as a living, **local** dashboard. No hosting, no login, no cloud: Homebase reads a folder of Markdown notes (an [Obsidian](https://obsidian.md) vault) and shows your goals, projects, tasks, content pipeline, people, daily journal and an "agent office" for your AI assistants. Edit notes in Obsidian, in the **+ Add** page, or by talking to an AI assistant such as Claude Code, and the dashboard refreshes itself within seconds.
+Your Obsidian vault as a living, **local** dashboard. No hosting, no login, no cloud: Homebase reads a folder of Markdown notes (an [Obsidian](https://obsidian.md) vault) and shows your goals, projects, tasks, calendar, content pipeline, people, daily journal and an "agent office" for your AI assistants. Edit notes in Obsidian, in the **+ Add** page and the calendar, or by talking to an AI assistant such as Claude Code, and the dashboard refreshes itself within seconds.
 
 It works fine **without any AI**: a first-run screen fills your vault in a minute. With an AI assistant, the vault ships with conventions (`CLAUDE.md`) and a morning briefing hook, so the assistant already knows how everything is laid out.
 
@@ -37,6 +37,7 @@ Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or co
 | Tasks | every `- [ ]` (add `📅 2026-12-31` for a due date) |
 | Thoughts | `00 Home/Thoughts Log.md` (one line per thought), `02 Inbox/`, `40 Ideas/`, and the "Thoughts & rants" bullets of daily notes |
 | Content | notes with `type: content` and a `stage` |
+| Calendar | your own events, one note each in `00 Home/Calendar/` (`type: event`), plus dated tasks, meetings and daily notes. No Google account needed ([details](docs/GUIDE.md#calendar)) |
 | Agent Office | the `agents:` list in `00 Home/Agents.md` |
 | Goal Map | `00 Home/Goal Map.canvas` |
 | Journal | `01 Daily/` |
@@ -46,12 +47,17 @@ Already have a vault? `./install.sh ~/path/to/vault` (or set `VAULT_PATH`, or co
 
 Everything personal (your name, goal, focus areas, content channels, room names, timezone) lives in `00 Home/Profile.md`; the app code has none of it. See `starter-vault/00 Home/Start here.md`.
 
-Homebase writes to your vault in only two places: the first-run setup and the **+ Add** page. Nothing else is modified.
+## What Homebase writes
+Homebase writes to your vault only for these:
+- **First run:** creating the starter vault if the folder is missing or empty, then saving your setup answers.
+- **+ Add:** tasks, thoughts, ideas, people, projects, tools and daily log lines.
+- **Thoughts and Decisions:** new thoughts, follow-ups to a thought, and decisions.
+- **Calendar:** adding, editing, moving and deleting events, and undo. Deleted event notes go to the vault's `.trash` folder.
 
 ## Using it with an AI assistant
 Open the vault folder (not this repo) in Claude Code or any assistant that reads `CLAUDE.md`. The vault's `.claude/settings.json` loads `Now.md` at the start of each session. Back your vault up however you like; `git init` plus the Obsidian Git plugin works well.
 
 ## Develop
-Next.js 16 (App Router), Tailwind 4, framer-motion. `lib/vault.ts` reads and parses the vault, `lib/data.ts` shapes it for each page, `lib/write.ts` holds the few writes. `starter-vault/` is what new users get.
+Next.js 16 (App Router), Tailwind 4, framer-motion. `lib/vault.ts` reads and parses the vault, `lib/data.ts` shapes it for each page, `lib/write.ts` and `lib/calendar.ts` hold the writes. `starter-vault/` is what new users get.
 
 MIT licensed.
